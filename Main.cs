@@ -45,6 +45,7 @@ namespace _2048
 
         private void Main_Paint(object sender, PaintEventArgs e)
         {
+            //aa
             for (int i = 0; i < 4; i++)
             {
                 for (int z = 0; z < 4; z++)
