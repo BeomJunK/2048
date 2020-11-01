@@ -26,6 +26,7 @@ namespace _2048
         Font titleFont;
         Font scoreFont;
 
+        BlockContainer container;
 
         public Main()
         {
@@ -41,11 +42,14 @@ namespace _2048
             dist = 10;
             titleFont = new Font("Verdana", 50,FontStyle.Bold);
             scoreFont = new Font("Airal", 20);
+
+            container = new BlockContainer(4);
+
         }
 
         private void Main_Paint(object sender, PaintEventArgs e)
         {
-            //aa
+            //메인 폼 draw
             for (int i = 0; i < 4; i++)
             {
                 for (int z = 0; z < 4; z++)
@@ -53,20 +57,18 @@ namespace _2048
                     DrawRoundRect(e.Graphics, brush, 10 + 100 * i + dist*i, 180+100 * z + dist * z, 100,100, 5);
                 }
             }
-
             e.Graphics.DrawString("2048", titleFont, Titlebrush, new Point(10,40));
             DrawRoundRect(e.Graphics, Scorebrush, 220,40, 80,80, 5);
             DrawRoundRect(e.Graphics, Scorebrush, 320,40, 120,80, 5);
-
             e.Graphics.DrawString("score", scoreFont, ScoreFontbrush, new Point(220, 40));
             e.Graphics.DrawString("best", scoreFont, ScoreFontbrush, new Point(350, 40));
 
-
+            container.Draw(e.Graphics);
 
 
         }
 
-        static void DrawRoundRect(Graphics g, Brush b, int x, int y, int w,int h, int r)
+        void DrawRoundRect(Graphics g, Brush b, int x, int y, int w,int h, int r)
         {
             System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
             path.AddArc(x, y, r + r, r + r, 180, 90);
@@ -79,6 +81,7 @@ namespace _2048
             path.CloseFigure();
             g.FillPath(b,path);
         }
+
 
         private void button1_Click(object sender, EventArgs e)
         {

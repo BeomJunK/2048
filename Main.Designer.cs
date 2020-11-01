@@ -56,7 +56,7 @@
             this.메뉴ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(450, 27);
+            this.menuStrip1.Size = new System.Drawing.Size(450, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -66,20 +66,20 @@
             this.무한모드ToolStripMenuItem,
             this.종료ToolStripMenuItem});
             this.메뉴ToolStripMenuItem.Name = "메뉴ToolStripMenuItem";
-            this.메뉴ToolStripMenuItem.Size = new System.Drawing.Size(49, 23);
+            this.메뉴ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.메뉴ToolStripMenuItem.Text = "메뉴";
             // 
             // 무한모드ToolStripMenuItem
             // 
             this.무한모드ToolStripMenuItem.Name = "무한모드ToolStripMenuItem";
-            this.무한모드ToolStripMenuItem.Size = new System.Drawing.Size(134, 24);
+            this.무한모드ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.무한모드ToolStripMenuItem.Text = "무한모드";
             this.무한모드ToolStripMenuItem.Click += new System.EventHandler(this.무한모드ToolStripMenuItem_Click);
             // 
             // 종료ToolStripMenuItem
             // 
             this.종료ToolStripMenuItem.Name = "종료ToolStripMenuItem";
-            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(134, 24);
+            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.종료ToolStripMenuItem.Text = "종료";
             // 
             // Main
