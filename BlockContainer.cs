@@ -12,23 +12,26 @@ namespace _2048
     {
 
         private int size;
+       
         NumberBlock[,] blockarr;
         Random random;
 
         private int column;
         private int row;
+        private Main main;
+    
 
-
-
-        public BlockContainer(int size)
+        public BlockContainer(int size,Main m)
         {
+            main = m;
+
             random = new Random();
             this.size = size;
             blockarr = new NumberBlock[size, size];
 
             AddBlock();
             AddBlock();
-          
+
 
 
         }
@@ -72,13 +75,22 @@ namespace _2048
 
                 if (blockarr[column, row] == null)
                 {
-                    blockarr[column, row] = new NumberBlock(column, row, 2);
+                    if(random.Next(0,3) == 0)
+                        blockarr[column, row] = new NumberBlock(column, row, 4,main);
+                    else
+                        blockarr[column, row] = new NumberBlock(column, row, 2, main);
                     break;
                 }
             }
 
         }
 
+        public void BlocksLeft()
+        {
 
+        }
+     
     }
+
+  
 }

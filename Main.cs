@@ -43,7 +43,7 @@ namespace _2048
             titleFont = new Font("Verdana", 50,FontStyle.Bold);
             scoreFont = new Font("Airal", 20);
 
-            container = new BlockContainer(4);
+            container = new BlockContainer(4,this);
 
         }
 
@@ -64,7 +64,7 @@ namespace _2048
             e.Graphics.DrawString("best", scoreFont, ScoreFontbrush, new Point(350, 40));
 
             container.Draw(e.Graphics);
-
+          
 
         }
 
@@ -85,7 +85,7 @@ namespace _2048
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            container.AddBlock();   
         }
 
         private void 무한모드ToolStripMenuItem_Click(object sender, EventArgs e)

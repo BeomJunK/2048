@@ -91,6 +91,7 @@
             this.ClientSize = new System.Drawing.Size(450, 620);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.menuStrip1);
+            this.DoubleBuffered = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
             this.Text = "2048!";
