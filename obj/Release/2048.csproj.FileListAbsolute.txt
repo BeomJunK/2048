@@ -1,0 +1,10 @@
+C:\Users\natur\Desktop\2048\2048\bin\Release\2048.exe.config
+C:\Users\natur\Desktop\2048\2048\bin\Release\2048.exe
+C:\Users\natur\Desktop\2048\2048\bin\Release\2048.pdb
+C:\Users\natur\Desktop\2048\2048\obj\Release\2048.csprojAssemblyReference.cache
+C:\Users\natur\Desktop\2048\2048\obj\Release\_2048.Main.resources
+C:\Users\natur\Desktop\2048\2048\obj\Release\_2048.Properties.Resources.resources
+C:\Users\natur\Desktop\2048\2048\obj\Release\2048.csproj.GenerateResource.cache
+C:\Users\natur\Desktop\2048\2048\obj\Release\2048.csproj.CoreCompileInputs.cache
+C:\Users\natur\Desktop\2048\2048\obj\Release\2048.exe
+C:\Users\natur\Desktop\2048\2048\obj\Release\2048.pdb

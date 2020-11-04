@@ -11,6 +11,9 @@ namespace _2048
     class NumberBlock
     {
         private Thread t;
+        private Thread UpandDown;
+        private Thread move;
+        private NumberBlock[,] blocks;
 
         private  Color color;
         private SolidBrush brush;
@@ -33,14 +36,17 @@ namespace _2048
         private int x;
         private int y;
 
+        private int i;
+        private int z;
+
         private Main main;
 
         public NumberBlock(int Row,int Column , long num ,Main m)
         {
             main = m;
             t = new Thread(new ThreadStart(sizeUp));
-            Animation();
-
+            UpandDown = new Thread(new ThreadStart(sizeUpandDown));
+            StartAnimation();
             blocksize = 0;
             number = num;
             this.Rows = Row;
@@ -90,6 +96,7 @@ namespace _2048
             path.CloseFigure();
             g.FillPath(b, path);
         }
+       
         private void sizeUp()
         {
             while (true)
@@ -105,6 +112,7 @@ namespace _2048
                 Thread.Sleep(10);
             }
         }
+
         private void sizeUpandDown()
         {
             bool max= false;
@@ -140,10 +148,58 @@ namespace _2048
             main.Invalidate();
         }
 
-        public void Animation()
+        public void StartAnimation()
         {
             t.Start();
         }
+        public void addUpAnimation()
+        {
+            UpandDown.Start();
+        }
+     
+        public long getNumber()
+        {
+            return number;
+        }
+        public void multiple()
+        {
+            number *= 2;
+        }
+        public void setMoveThread(Thread t,NumberBlock [,] blocks ,int i , int z)
+        {
+            this.blocks = blocks;
+            this.i = i;
+            this.z = z;
+            move = t;
+            t.Start();
+        }
+        public void LeftMove()
+        {
+            Column--;
+            x = 10 + 100 * Column + main.getDist() * Column;
+        }
+        public void leftAnimation()
+        {
+            int destinationX = 10 + 100 * Column + main.getDist() * Column;
+                while (true)
+                {
+                    if (destinationX < x)
+                        x -= 5;
+                    else if (destinationX > x)
+                        break;
+                    main.Invalidate();
+                    Thread.Sleep(10);
+                }
+            x = destinationX;
+            main.Invalidate();
+
+            blocks[i, z - 1] = blocks[i, z];
+            blocks[i, z] = null;
+            move.Abort();
+        }
+
+
+       
     }
    
 

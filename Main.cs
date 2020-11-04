@@ -85,12 +85,21 @@ namespace _2048
 
         private void button1_Click(object sender, EventArgs e)
         {
-            container.AddBlock();   
+            container.BlocksLeft();
         }
 
         private void 무한모드ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+        public int getDist()
+        {
+            return dist;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            container.BlocksLeft();
         }
     }
 }
