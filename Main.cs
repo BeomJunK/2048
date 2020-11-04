@@ -99,7 +99,8 @@ namespace _2048
 
         private void button2_Click(object sender, EventArgs e)
         {
-            container.BlocksLeft();
+            container.AddBlock();
+
         }
     }
 }

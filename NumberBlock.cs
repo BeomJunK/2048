@@ -32,20 +32,27 @@ namespace _2048
 
         private int Rows;
         private int Column;
+        private int previousRows;
+        private int previousColumn;
+
+
+        private bool moved;
+
 
         private int x;
         private int y;
 
-        private int i;
-        private int z;
+       
+
 
         private Main main;
 
         public NumberBlock(int Row,int Column , long num ,Main m)
         {
+           
             main = m;
             t = new Thread(new ThreadStart(sizeUp));
-            UpandDown = new Thread(new ThreadStart(sizeUpandDown));
+           
             StartAnimation();
             blocksize = 0;
             number = num;
@@ -118,15 +125,15 @@ namespace _2048
             bool max= false;
             while (true)
             {
-                if (blocksize > 130)
+                if (blocksize > 125)
                 {
                     max = true;
                 }
                 if (!max)
                 {
-                    x -= 2;
-                    y -= 2;
-                    blocksize += 4;
+                    x -= 1;
+                    y -= 1;
+                    blocksize += 2;
                     main.Invalidate();
                 }
                 else if (max)
@@ -138,14 +145,15 @@ namespace _2048
                         blocksize = 100;
                         break;
                     }
-                    x += 2;
-                    y += 2;
-                    blocksize -= 4;
+                    x += 1;
+                    y += 1;
+                    blocksize -= 2;
                     main.Invalidate();
                 }
                 Thread.Sleep(10);
             }
             main.Invalidate();
+            UpandDown.Abort();
         }
 
         public void StartAnimation()
@@ -154,6 +162,7 @@ namespace _2048
         }
         public void addUpAnimation()
         {
+            UpandDown = new Thread(new ThreadStart(sizeUpandDown));
             UpandDown.Start();
         }
      
@@ -165,41 +174,53 @@ namespace _2048
         {
             number *= 2;
         }
-        public void setMoveThread(Thread t,NumberBlock [,] blocks ,int i , int z)
+        public void setMoveThread(Thread t,NumberBlock [,] blocks,int previousRow, int previousColumn)
         {
-            this.blocks = blocks;
-            this.i = i;
-            this.z = z;
-            move = t;
-            t.Start();
+            
+            if (moved)
+            {
+                this.blocks = blocks;
+                this.previousRows = previousRow;
+                this.previousColumn = previousColumn;
+                move = t;
+                t.Start();
+            }
+
         }
         public void LeftMove()
         {
+            moved = true;
             Column--;
-            x = 10 + 100 * Column + main.getDist() * Column;
         }
         public void leftAnimation()
         {
             int destinationX = 10 + 100 * Column + main.getDist() * Column;
                 while (true)
                 {
-                    if (destinationX < x)
-                        x -= 5;
-                    else if (destinationX > x)
-                        break;
+                if (destinationX < x)
+                    x -= 1;
+                else if (destinationX >= x)
+                    break;
                     main.Invalidate();
-                    Thread.Sleep(10);
+                    Thread.Sleep(1);
                 }
             x = destinationX;
             main.Invalidate();
 
-            blocks[i, z - 1] = blocks[i, z];
-            blocks[i, z] = null;
-            move.Abort();
+          
+            moved = false;
+        }
+       public bool Blockmoved()
+        {
+            return moved;
+        }
+        public Thread getmoveThread()
+        {
+            return move;
         }
 
 
-       
+
     }
    
 
