@@ -85,7 +85,7 @@ namespace _2048
 
         private void button1_Click(object sender, EventArgs e)
         {
-            container.BlocksLeft();
+          
         }
 
         private void 무한모드ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -97,10 +97,36 @@ namespace _2048
             return dist;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Main_KeyDown(object sender, KeyEventArgs e)
         {
-            container.AddBlock();
+            switch (e.KeyCode)
+            {
+                case Keys.Left:
+                    container.BlocksLeft();
+                    break;
+                case Keys.Right:
+                    container.BlocksRight();
+                    break;
+                case Keys.Space:
+                    for (int i = 0; i < 4; i++)
+                    {
+                        for (int z = 0; z < 4; z++)
+                        {
+                            if (container.blockarr[i, z] != null)
+                            {
+                                Console.Write("1 ");
+                            }
+                            else
+                                Console.Write("0 ");
+                        }
+                        Console.Write("\n");
 
+
+                    }
+                    break;
+            }
         }
+
+       
     }
 }

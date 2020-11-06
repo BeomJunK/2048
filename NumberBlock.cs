@@ -13,7 +13,7 @@ namespace _2048
         private Thread t;
         private Thread UpandDown;
         public Thread move;
-        private NumberBlock[,] blocks;
+  
 
         private Color color;
         private SolidBrush brush;
@@ -22,18 +22,15 @@ namespace _2048
         private Brush textbrush;
         private Font textfont;
 
-        private long number;
+       
 
         private int blocksize;
 
-        private int r;
-        private int g;
-        private int b;
 
+        private long number;
         private int Rows;
         private int Column;
-        private int previousRows;
-        private int previousColumn;
+
 
 
         private bool moved;
@@ -52,10 +49,8 @@ namespace _2048
 
         public NumberBlock(int Row, int Column, long num, Main m)
         {
-
             main = m;
             t = new Thread(new ThreadStart(sizeUp));
-
             StartAnimation();
             blocksize = 0;
             number = num;
@@ -82,6 +77,9 @@ namespace _2048
             y = 200 + 100 * Rows + 10 * Rows + 29;
 
         }
+
+      
+
         public void Draw(Graphics g)
         {
 
@@ -177,17 +175,12 @@ namespace _2048
             changeSize = true;
             number *= 2;
         }
-        public void setMoveThread(Thread t, NumberBlock[,] blocks, int previousRow, int previousColumn)
+        public void setMoveThread(Thread t)
         {
+           
+            move = t;
+            t.Start();
 
-            if (moved)
-            {
-                this.blocks = blocks;
-                this.previousRows = previousRow;
-                this.previousColumn = previousColumn;
-                move = t;
-                t.Start();
-            }
 
         }
         public void setSizeUpDownThread()
@@ -201,22 +194,44 @@ namespace _2048
             moved = true;
             Column--;
         }
-        public void leftAnimation()
+        public void RightMove(bool d)
+        {
+            destroyed = d;
+            moved = true;
+            Column++;
+        }
+        public void moveAnimation()
         {
             int destinationX = 10 + 100 * Column + main.getDist() * Column;
-            while (true)
+
+            if (destinationX < x)
             {
-                if (destinationX < x)
-                    x -= 10;
-                else if (destinationX >= x)
-                    break;
-                main.Invalidate();
-                Thread.Sleep(1);
+                while (true)
+                {
+                    if (destinationX < x)
+                        x -= 10;
+                    else if (destinationX >= x)
+                        break;
+                    main.Invalidate();
+                    Thread.Sleep(1);
+                }
+            }
+            else if (destinationX > x)
+            {
+                while (true)
+                {
+                    if (destinationX > x)
+                        x += 10;
+                    else if (destinationX <= x)
+                        break;
+                    main.Invalidate();
+                    Thread.Sleep(1);
+                }
+            
             }
             x = destinationX;
             moved = false;
-            if (destroyed)
-                blocks[previousRows, previousColumn] = null;
+          
             main.Invalidate();
 
         }
@@ -224,6 +239,7 @@ namespace _2048
         {
             return moved;
         }
+        
        public bool sizeChanged()
         {
             return changeSize;
@@ -231,6 +247,14 @@ namespace _2048
         public Thread getmoveThread()
         {
             return move;
+        }
+        public int getX()
+        {
+            return x;
+        }
+        public int getY()
+        {
+            return y;
         }
 
 
