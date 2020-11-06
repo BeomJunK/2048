@@ -12,13 +12,13 @@ namespace _2048
     {
         private Thread t;
         private Thread UpandDown;
-        private Thread move;
+        public Thread move;
         private NumberBlock[,] blocks;
 
-        private  Color color;
+        private Color color;
         private SolidBrush brush;
 
-        
+
         private Brush textbrush;
         private Font textfont;
 
@@ -37,22 +37,25 @@ namespace _2048
 
 
         private bool moved;
+        private bool destroyed;
+        private bool changeSize;
 
 
         private int x;
         private int y;
 
-       
+
 
 
         private Main main;
+        
 
-        public NumberBlock(int Row,int Column , long num ,Main m)
+        public NumberBlock(int Row, int Column, long num, Main m)
         {
-           
+
             main = m;
             t = new Thread(new ThreadStart(sizeUp));
-           
+
             StartAnimation();
             blocksize = 0;
             number = num;
@@ -69,26 +72,28 @@ namespace _2048
             brush = new SolidBrush(color);
 
 
-            if(number > 9999)
+            if (number > 9999)
                 textfont = new Font("Verdana", 15, FontStyle.Bold, GraphicsUnit.Point);
             else
-                textfont = new Font("Verdana", 40,FontStyle.Bold, GraphicsUnit.Point);
+                textfont = new Font("Verdana", 40, FontStyle.Bold, GraphicsUnit.Point);
             textbrush = Brushes.Black;
 
-            x = 30 + 100 * Column + 10 * Column +29;
-            y = 200 + 100 * Rows + 10 * Rows +29;
+            x = 30 + 100 * Column + 10 * Column + 29;
+            y = 200 + 100 * Rows + 10 * Rows + 29;
 
         }
         public void Draw(Graphics g)
         {
-          
-            DrawRoundRect(g, brush, x,y, blocksize, blocksize, 5);
+
+            DrawRoundRect(g, brush, x, y, blocksize, blocksize, 5);
 
             Rectangle rect1 = new Rectangle(x, y, blocksize, blocksize);
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
-            g.DrawString(number.ToString(), textfont, textbrush, rect1, stringFormat);
+
+            if(!changeSize)
+                g.DrawString(number.ToString(), textfont, textbrush, rect1, stringFormat);
         }
         void DrawRoundRect(Graphics g, Brush b, int x, int y, int w, int h, int r)
         {
@@ -103,7 +108,7 @@ namespace _2048
             path.CloseFigure();
             g.FillPath(b, path);
         }
-       
+
         private void sizeUp()
         {
             while (true)
@@ -122,7 +127,7 @@ namespace _2048
 
         private void sizeUpandDown()
         {
-            bool max= false;
+            bool max = false;
             while (true)
             {
                 if (blocksize > 125)
@@ -131,9 +136,9 @@ namespace _2048
                 }
                 if (!max)
                 {
-                    x -= 1;
-                    y -= 1;
-                    blocksize += 2;
+                    x -= 2;
+                    y -= 2;
+                    blocksize += 4;
                     main.Invalidate();
                 }
                 else if (max)
@@ -143,40 +148,38 @@ namespace _2048
                         x = 10 + 100 * Column + 10 * Column;
                         y = 180 + 100 * Rows + 10 * Rows;
                         blocksize = 100;
+                        main.Invalidate();
                         break;
                     }
-                    x += 1;
-                    y += 1;
-                    blocksize -= 2;
+                    x +=2;
+                    y += 2;
+                    blocksize -= 4;
                     main.Invalidate();
                 }
                 Thread.Sleep(10);
             }
-            main.Invalidate();
-            UpandDown.Abort();
+
+            changeSize = false;
         }
 
         public void StartAnimation()
         {
             t.Start();
         }
-        public void addUpAnimation()
-        {
-            UpandDown = new Thread(new ThreadStart(sizeUpandDown));
-            UpandDown.Start();
-        }
-     
+   
+
         public long getNumber()
         {
             return number;
         }
         public void multiple()
         {
+            changeSize = true;
             number *= 2;
         }
-        public void setMoveThread(Thread t,NumberBlock [,] blocks,int previousRow, int previousColumn)
+        public void setMoveThread(Thread t, NumberBlock[,] blocks, int previousRow, int previousColumn)
         {
-            
+
             if (moved)
             {
                 this.blocks = blocks;
@@ -187,32 +190,43 @@ namespace _2048
             }
 
         }
-        public void LeftMove()
+        public void setSizeUpDownThread()
         {
+            UpandDown = new Thread(new ThreadStart(sizeUpandDown));
+            UpandDown.Start();
+        }
+        public void LeftMove(bool d)
+        {
+            destroyed = d;
             moved = true;
             Column--;
         }
         public void leftAnimation()
         {
             int destinationX = 10 + 100 * Column + main.getDist() * Column;
-                while (true)
-                {
+            while (true)
+            {
                 if (destinationX < x)
-                    x -= 1;
+                    x -= 10;
                 else if (destinationX >= x)
                     break;
-                    main.Invalidate();
-                    Thread.Sleep(1);
-                }
+                main.Invalidate();
+                Thread.Sleep(1);
+            }
             x = destinationX;
+            moved = false;
+            if (destroyed)
+                blocks[previousRows, previousColumn] = null;
             main.Invalidate();
 
-          
-            moved = false;
         }
-       public bool Blockmoved()
+        public bool Blockmoved()
         {
             return moved;
+        }
+       public bool sizeChanged()
+        {
+            return changeSize;
         }
         public Thread getmoveThread()
         {
@@ -222,6 +236,6 @@ namespace _2048
 
 
     }
-   
+
 
 }
