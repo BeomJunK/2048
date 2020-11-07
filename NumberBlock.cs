@@ -65,12 +65,11 @@ namespace _2048
 
 
             brush = new SolidBrush(color);
+            textfont = new Font("Verdana", 40, FontStyle.Bold, GraphicsUnit.Point);
 
 
-            if (number > 9999)
-                textfont = new Font("Verdana", 15, FontStyle.Bold, GraphicsUnit.Point);
-            else
-                textfont = new Font("Verdana", 40, FontStyle.Bold, GraphicsUnit.Point);
+      
+
             textbrush = Brushes.Black;
 
             x = 30 + 100 * Column + 10 * Column + 29;
@@ -82,6 +81,7 @@ namespace _2048
 
         public void Draw(Graphics g)
         {
+            
 
             DrawRoundRect(g, brush, x, y, blocksize, blocksize, 5);
 
@@ -89,7 +89,7 @@ namespace _2048
             StringFormat stringFormat = new StringFormat();
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
-
+            
             if(!changeSize)
                 g.DrawString(number.ToString(), textfont, textbrush, rect1, stringFormat);
         }
@@ -154,7 +154,7 @@ namespace _2048
                     blocksize -= 4;
                     main.Invalidate();
                 }
-                Thread.Sleep(10);
+                Thread.Sleep(15);
             }
 
             changeSize = false;
@@ -174,6 +174,14 @@ namespace _2048
         {
             changeSize = true;
             number *= 2;
+            if (number > 9999)
+                textfont = new Font("Verdana", 10, FontStyle.Bold, GraphicsUnit.Point);
+            else if (number > 999)
+                textfont = new Font("Verdana", 20, FontStyle.Bold, GraphicsUnit.Point);
+            else if (number > 99)
+                textfont = new Font("Verdana", 25, FontStyle.Bold, GraphicsUnit.Point);
+            else
+                textfont = new Font("Verdana", 40, FontStyle.Bold, GraphicsUnit.Point);
         }
         public void setMoveThread(Thread t)
         {
@@ -200,9 +208,22 @@ namespace _2048
             moved = true;
             Column++;
         }
+        public void UpMove(bool d)
+        {
+            destroyed = d;
+            moved = true;
+            Rows--;
+        }
+        public void DownMove(bool d)
+        {
+            destroyed = d;
+            moved = true;
+            Rows++;
+        }
         public void moveAnimation()
         {
             int destinationX = 10 + 100 * Column + main.getDist() * Column;
+            int destinationY = 180 + 100 * Rows + main.getDist() * Rows;
 
             if (destinationX < x)
             {
@@ -213,7 +234,7 @@ namespace _2048
                     else if (destinationX >= x)
                         break;
                     main.Invalidate();
-                    Thread.Sleep(1);
+                    Thread.Sleep(3);
                 }
             }
             else if (destinationX > x)
@@ -225,11 +246,38 @@ namespace _2048
                     else if (destinationX <= x)
                         break;
                     main.Invalidate();
-                    Thread.Sleep(1);
+                    Thread.Sleep(3);
                 }
             
             }
+            if (destinationY < y)
+            {
+                while (true)
+                {
+                    if (destinationY < y)
+                        y -= 10;
+                    else if (destinationY >= y)
+                        break;
+                    main.Invalidate();
+                    Thread.Sleep(3);
+                }
+            }
+            else if (destinationY > y)
+            {
+                while (true)
+                {
+                    if (destinationY > y)
+                        y += 10;
+                    else if (destinationY <=y)
+                        break;
+                    main.Invalidate();
+                    Thread.Sleep(3);
+                }
+
+            }
+
             x = destinationX;
+            y = destinationY;
             moved = false;
           
             main.Invalidate();

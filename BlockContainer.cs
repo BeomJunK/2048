@@ -11,6 +11,7 @@ namespace _2048
 {
     class BlockContainer
     {
+        private bool movedBlocks;
 
         private int size;
 
@@ -33,21 +34,24 @@ namespace _2048
             random = new Random();
             this.size = size;
             blockarr = new NumberBlock[size, size];
-            
-          
-                blockarr[0,0] = new NumberBlock(0, 0, 4, main);
-                blockarr[0, 3] = new NumberBlock(0, 3, 4, main);
 
-            blockarr[1, 2] = new NumberBlock(1, 2, 4, main);
-            blockarr[1, 3] = new NumberBlock(1, 3, 2, main);
-
-
-
-
-            /* AddBlock();
-             AddBlock();*/
+            int a =1;
+            for (int i = 0; i < 4; i++)
+            {
+                for (int z = 0; z < 3; z++)
+                {
+                    blockarr[i, z] = new NumberBlock(i, z, a, main);
+                    a++;
+                }
+            }
 
 
+            /*
+                        AddBlock();
+                        AddBlock();*/
+
+
+           
         }
         //block start point 10 , 180
         public void Draw(Graphics g)
@@ -69,7 +73,7 @@ namespace _2048
         public void AddBlock()
         {
             bool fullcontainer = true;
-
+            bool moveposible = false;
             for (int i = 0; i < size; i++)
             {
                 for (int z = 0; z < size; z++)
@@ -84,8 +88,27 @@ namespace _2048
             }
 
             if (fullcontainer)
+            {
+                for (int i = 0; i < size; i++)
+                {
+                    for (int z = 0; z < size; z++)
+                    {
+                        if (blockarr[i, z].getNumber() == blockarr[i, z+1].getNumber())
+                        {
+                            moveposible = true;
+                            i = size;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!moveposible && fullcontainer)
+            {
+                main.gameOver();
                 return;
-
+            }
+            if (fullcontainer)
+                return;
 
             while (true)
             {
@@ -106,6 +129,7 @@ namespace _2048
 
         public void BlocksLeft()
         {
+            
             for (int z = 0; z < size; z++)// array update
             {
                 for (int k = 0; k < size; k++)
@@ -117,12 +141,15 @@ namespace _2048
                             blockarr[z, i + 1].LeftMove(false);
                             blockarr[z, i] = blockarr[z, i + 1];
                             blockarr[z, i + 1] = null;
+                            movedBlocks = true;
                         }
                         if (blockarr[z, i] != null && blockarr[z, i + 1] != null && blockarr[z, i].getNumber() == blockarr[z, i + 1].getNumber())
                         {
                             deadblocks.Add(new DeadBlock(blockarr[z, i+1].getNumber(), z, i, blockarr[z, i + 1].getX(), blockarr[z, i + 1].getY(), main, deadblocks));
                             blockarr[z, i].multiple();
                             blockarr[z, i + 1] = null;
+                            movedBlocks = true;
+
                         }
                     }
                 }
@@ -136,20 +163,21 @@ namespace _2048
                         blockarr[i, z].setMoveThread(new Thread(new ThreadStart(blockarr[i, z].moveAnimation)));
                     if (blockarr[i, z] != null && blockarr[i, z].sizeChanged())
                     {
-                        /*if(blockarr[i, z].move.ThreadState == ThreadState.Running)
-                        {
-                            blockarr[i, z].move.Join();
-                            blockarr[i, z].setSizeUpDownThread();
-                        }else*/
                         blockarr[i, z].setSizeUpDownThread();
                     }
                 }
+            }
+            if (movedBlocks)
+            {
+                AddBlock();
+                movedBlocks = false;
             }
         }
 
 
         public void BlocksRight()
         {
+            
             for (int z = 0; z < size; z++)// array update
             {
                 for (int k = 0; k < size; k++)
@@ -161,12 +189,16 @@ namespace _2048
                             blockarr[z, i].RightMove(false);
                             blockarr[z, i+1] = blockarr[z, i];
                             blockarr[z, i] = null;
+                            movedBlocks = true;
+
                         }
                         if (blockarr[z, i] != null && blockarr[z, i + 1] != null && blockarr[z, i].getNumber() == blockarr[z, i + 1].getNumber())
                         {
                             deadblocks.Add(new DeadBlock(blockarr[z, i].getNumber(), z, i+1, blockarr[z, i].getX(), blockarr[z, i].getY(), main, deadblocks));
                             blockarr[z, i+1].multiple();
                             blockarr[z, i] = null;
+                            movedBlocks = true;
+
                         }
                     }
                 }
@@ -180,18 +212,110 @@ namespace _2048
                         blockarr[i, z].setMoveThread(new Thread(new ThreadStart(blockarr[i, z].moveAnimation)));
                     if (blockarr[i, z] != null && blockarr[i, z].sizeChanged())
                     {
-                        /*if(blockarr[i, z].move.ThreadState == ThreadState.Running)
-                        {
-                            blockarr[i, z].move.Join();
-                            blockarr[i, z].setSizeUpDownThread();
-                        }else*/
                         blockarr[i, z].setSizeUpDownThread();
                     }
                 }
             }
+            if (movedBlocks)
+            {
+                AddBlock();
+                movedBlocks = false;
+            }
         }
-        
+        public void BlocksUp()
+        {
 
+            for (int z = 0; z < size; z++)// array update
+            {
+                for (int k = 0; k < size; k++)
+                {
+                    for (int i = 0; i < size - 1; i++)
+                    {
+                        if (blockarr[i, z] == null && blockarr[i + 1, z] != null)
+                        {
+                            blockarr[i + 1, z].UpMove(false);
+                            blockarr[i, z] = blockarr[i + 1, z ];
+                            blockarr[i + 1, z ] = null;
+                            movedBlocks = true;
+
+                        }
+                        if (blockarr[i, z] != null && blockarr[i + 1, z] != null && blockarr[i, z].getNumber() == blockarr[i+1,z].getNumber())
+                        {
+                            deadblocks.Add(new DeadBlock(blockarr[i + 1, z].getNumber(), i, z, blockarr[i + 1, z ].getX(), blockarr[i + 1, z].getY(), main, deadblocks));
+                            blockarr[i, z].multiple();
+                            blockarr[i + 1, z ] = null;
+                            movedBlocks = true;
+
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < size; i++) // updateBlock
+            {
+                for (int z = 0; z < size; z++)
+                {
+                    if (blockarr[i, z] != null && blockarr[i, z].Blockmoved())
+                        blockarr[i, z].setMoveThread(new Thread(new ThreadStart(blockarr[i, z].moveAnimation)));
+                    if (blockarr[i, z] != null && blockarr[i, z].sizeChanged())
+                    {
+                        blockarr[i, z].setSizeUpDownThread();
+                    }
+                }
+            }
+            if (movedBlocks)
+            {
+                AddBlock();
+                movedBlocks = false;
+            }
+        }
+        public void BlocksDown()
+        {
+
+            for (int z = 0; z < size; z++)// array update
+            {
+                for (int k = 0; k < size; k++)
+                {
+                    for (int i = 0; i < size - 1; i++)
+                    {
+                        if (blockarr[i, z] != null && blockarr[i + 1, z] == null)
+                        {
+                            blockarr[i, z].DownMove(false);
+                            blockarr[i + 1, z ] = blockarr[i, z];
+                            blockarr[i, z] = null;
+                            movedBlocks = true;
+
+                        }
+                        if (blockarr[i, z] != null && blockarr[i + 1, z] != null && blockarr[i, z].getNumber() == blockarr[i + 1, z].getNumber())
+                        {
+                            deadblocks.Add(new DeadBlock(blockarr[i, z].getNumber(), i + 1, z , blockarr[i, z].getX(), blockarr[i, z].getY(), main, deadblocks));
+                            blockarr[i + 1, z].multiple();
+                            blockarr[i, z] = null;
+                            movedBlocks = true;
+
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < size; i++) // updateBlock
+            {
+                for (int z = 0; z < size; z++)
+                {
+                    if (blockarr[i, z] != null && blockarr[i, z].Blockmoved())
+                        blockarr[i, z].setMoveThread(new Thread(new ThreadStart(blockarr[i, z].moveAnimation)));
+                    if (blockarr[i, z] != null && blockarr[i, z].sizeChanged())
+                    {
+                        blockarr[i, z].setSizeUpDownThread();
+                    }
+                }
+            }
+            if (movedBlocks)
+            {
+                AddBlock();
+                movedBlocks = false;
+            }
+        }
 
     }
 }
