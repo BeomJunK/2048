@@ -31,7 +31,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.메뉴ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.도움말ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.무한모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.크기모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.x4모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,7 +73,6 @@
             // 메뉴ToolStripMenuItem
             // 
             this.메뉴ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.도움말ToolStripMenuItem,
             this.무한모드ToolStripMenuItem,
             this.크기모드ToolStripMenuItem,
             this.종료ToolStripMenuItem});
@@ -82,16 +80,10 @@
             this.메뉴ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.메뉴ToolStripMenuItem.Text = "메뉴";
             // 
-            // 도움말ToolStripMenuItem
-            // 
-            this.도움말ToolStripMenuItem.Name = "도움말ToolStripMenuItem";
-            this.도움말ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
-            this.도움말ToolStripMenuItem.Text = "도움말";
-            // 
             // 무한모드ToolStripMenuItem
             // 
             this.무한모드ToolStripMenuItem.Name = "무한모드ToolStripMenuItem";
-            this.무한모드ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.무한모드ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.무한모드ToolStripMenuItem.Text = "무한모드";
             this.무한모드ToolStripMenuItem.Click += new System.EventHandler(this.무한모드ToolStripMenuItem_Click);
             // 
@@ -104,7 +96,7 @@
             this.x7ToolStripMenuItem,
             this.x8ToolStripMenuItem});
             this.크기모드ToolStripMenuItem.Name = "크기모드ToolStripMenuItem";
-            this.크기모드ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.크기모드ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.크기모드ToolStripMenuItem.Text = "게임설정";
             // 
             // x4모드ToolStripMenuItem
@@ -145,22 +137,25 @@
             // 종료ToolStripMenuItem
             // 
             this.종료ToolStripMenuItem.Name = "종료ToolStripMenuItem";
-            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.종료ToolStripMenuItem.Text = "종료";
             this.종료ToolStripMenuItem.Click += new System.EventHandler(this.종료ToolStripMenuItem_Click);
             // 
             // panel1
             // 
+            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.label1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(450, 596);
+            this.panel1.Size = new System.Drawing.Size(450, 620);
             this.panel1.TabIndex = 2;
             this.panel1.Visible = false;
             // 
             // button2
             // 
+            this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("휴먼옛체", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -170,6 +165,7 @@
             this.button2.TabIndex = 1;
             this.button2.Text = "Retry";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label1
             // 
@@ -186,6 +182,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(185)))), ((int)(((byte)(173)))), ((int)(((byte)(162)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(450, 620);
@@ -215,7 +212,6 @@
         private System.Windows.Forms.ToolStripMenuItem 메뉴ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 무한모드ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 종료ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 도움말ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 크기모드ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem x4모드ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem x5모드ToolStripMenuItem;

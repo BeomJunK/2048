@@ -35,23 +35,15 @@ namespace _2048
             this.size = size;
             blockarr = new NumberBlock[size, size];
 
-            int a =1;
-            for (int i = 0; i < 4; i++)
-            {
-                for (int z = 0; z < 3; z++)
-                {
-                    blockarr[i, z] = new NumberBlock(i, z, a, main);
-                    a++;
-                }
-            }
+            int a = 1;
 
 
-            /*
-                        AddBlock();
-                        AddBlock();*/
+
+            AddBlock();
+            AddBlock();
 
 
-           
+
         }
         //block start point 10 , 180
         public void Draw(Graphics g)
@@ -72,43 +64,10 @@ namespace _2048
         }
         public void AddBlock()
         {
-            bool fullcontainer = true;
-            bool moveposible = false;
-            for (int i = 0; i < size; i++)
-            {
-                for (int z = 0; z < size; z++)
-                {
-                    if (blockarr[i, z] == null)
-                    {
-                        fullcontainer = false;
-                        i = size;
-                        break;
-                    }
-                }
-            }
+           
+            
 
-            if (fullcontainer)
-            {
-                for (int i = 0; i < size; i++)
-                {
-                    for (int z = 0; z < size; z++)
-                    {
-                        if (blockarr[i, z].getNumber() == blockarr[i, z+1].getNumber())
-                        {
-                            moveposible = true;
-                            i = size;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (!moveposible && fullcontainer)
-            {
-                main.gameOver();
-                return;
-            }
-            if (fullcontainer)
-                return;
+            
 
             while (true)
             {
@@ -129,7 +88,7 @@ namespace _2048
 
         public void BlocksLeft()
         {
-            
+
             for (int z = 0; z < size; z++)// array update
             {
                 for (int k = 0; k < size; k++)
@@ -143,10 +102,12 @@ namespace _2048
                             blockarr[z, i + 1] = null;
                             movedBlocks = true;
                         }
-                        if (blockarr[z, i] != null && blockarr[z, i + 1] != null && blockarr[z, i].getNumber() == blockarr[z, i + 1].getNumber())
+                        if (blockarr[z, i] != null && blockarr[z, i + 1] != null && blockarr[z, i].getNumber() == blockarr[z, i + 1].getNumber()
+                            && !blockarr[z, i].getMultiped() && !blockarr[z, i + 1].getMultiped())
                         {
-                            deadblocks.Add(new DeadBlock(blockarr[z, i+1].getNumber(), z, i, blockarr[z, i + 1].getX(), blockarr[z, i + 1].getY(), main, deadblocks));
+                            deadblocks.Add(new DeadBlock(blockarr[z, i + 1].getNumber(), z, i, blockarr[z, i + 1].getX(), blockarr[z, i + 1].getY(), main, deadblocks));
                             blockarr[z, i].multiple();
+                            main.addscore(blockarr[z, i].getNumber());
                             blockarr[z, i + 1] = null;
                             movedBlocks = true;
 
@@ -159,6 +120,9 @@ namespace _2048
             {
                 for (int z = 0; z < size; z++)
                 {
+                    if (blockarr[i, z] != null)
+                        blockarr[i, z].setMultiped(false);
+
                     if (blockarr[i, z] != null && blockarr[i, z].Blockmoved())
                         blockarr[i, z].setMoveThread(new Thread(new ThreadStart(blockarr[i, z].moveAnimation)));
                     if (blockarr[i, z] != null && blockarr[i, z].sizeChanged())
@@ -167,11 +131,17 @@ namespace _2048
                     }
                 }
             }
+
             if (movedBlocks)
             {
                 AddBlock();
                 movedBlocks = false;
             }
+            if (!canMove())
+            {
+                main.gameOver();
+            }
+
         }
 
 
@@ -192,10 +162,12 @@ namespace _2048
                             movedBlocks = true;
 
                         }
-                        if (blockarr[z, i] != null && blockarr[z, i + 1] != null && blockarr[z, i].getNumber() == blockarr[z, i + 1].getNumber())
+                        if (blockarr[z, i] != null && blockarr[z, i + 1] != null && blockarr[z, i].getNumber() == blockarr[z, i + 1].getNumber()
+                             && !blockarr[z, i].getMultiped() && !blockarr[z, i + 1].getMultiped())
                         {
                             deadblocks.Add(new DeadBlock(blockarr[z, i].getNumber(), z, i+1, blockarr[z, i].getX(), blockarr[z, i].getY(), main, deadblocks));
                             blockarr[z, i+1].multiple();
+                            main.addscore(blockarr[z, i+1].getNumber());
                             blockarr[z, i] = null;
                             movedBlocks = true;
 
@@ -208,6 +180,9 @@ namespace _2048
             {
                 for (int z = 0; z < size; z++)
                 {
+                    if (blockarr[i, z] != null)
+                        blockarr[i, z].setMultiped(false);
+
                     if (blockarr[i, z] != null && blockarr[i, z].Blockmoved())
                         blockarr[i, z].setMoveThread(new Thread(new ThreadStart(blockarr[i, z].moveAnimation)));
                     if (blockarr[i, z] != null && blockarr[i, z].sizeChanged())
@@ -220,6 +195,10 @@ namespace _2048
             {
                 AddBlock();
                 movedBlocks = false;
+            }
+            if (!canMove())
+            {
+                main.gameOver();
             }
         }
         public void BlocksUp()
@@ -239,10 +218,12 @@ namespace _2048
                             movedBlocks = true;
 
                         }
-                        if (blockarr[i, z] != null && blockarr[i + 1, z] != null && blockarr[i, z].getNumber() == blockarr[i+1,z].getNumber())
+                        if (blockarr[i, z] != null && blockarr[i + 1, z] != null && blockarr[i, z].getNumber() == blockarr[i+1,z].getNumber()
+                             && !blockarr[i, z].getMultiped() && !blockarr[i+1, z].getMultiped())
                         {
                             deadblocks.Add(new DeadBlock(blockarr[i + 1, z].getNumber(), i, z, blockarr[i + 1, z ].getX(), blockarr[i + 1, z].getY(), main, deadblocks));
                             blockarr[i, z].multiple();
+                            main.addscore(blockarr[i, z].getNumber());
                             blockarr[i + 1, z ] = null;
                             movedBlocks = true;
 
@@ -255,6 +236,8 @@ namespace _2048
             {
                 for (int z = 0; z < size; z++)
                 {
+                    if (blockarr[i, z] != null)
+                        blockarr[i, z].setMultiped(false);
                     if (blockarr[i, z] != null && blockarr[i, z].Blockmoved())
                         blockarr[i, z].setMoveThread(new Thread(new ThreadStart(blockarr[i, z].moveAnimation)));
                     if (blockarr[i, z] != null && blockarr[i, z].sizeChanged())
@@ -267,6 +250,10 @@ namespace _2048
             {
                 AddBlock();
                 movedBlocks = false;
+            }
+            if (!canMove())
+            {
+                main.gameOver();
             }
         }
         public void BlocksDown()
@@ -286,10 +273,12 @@ namespace _2048
                             movedBlocks = true;
 
                         }
-                        if (blockarr[i, z] != null && blockarr[i + 1, z] != null && blockarr[i, z].getNumber() == blockarr[i + 1, z].getNumber())
+                        if (blockarr[i, z] != null && blockarr[i + 1, z] != null && blockarr[i, z].getNumber() == blockarr[i + 1, z].getNumber()
+                             && !blockarr[i, z].getMultiped() && !blockarr[i+1, z].getMultiped())
                         {
                             deadblocks.Add(new DeadBlock(blockarr[i, z].getNumber(), i + 1, z , blockarr[i, z].getX(), blockarr[i, z].getY(), main, deadblocks));
                             blockarr[i + 1, z].multiple();
+                            main.addscore(blockarr[i+1, z].getNumber());
                             blockarr[i, z] = null;
                             movedBlocks = true;
 
@@ -302,6 +291,8 @@ namespace _2048
             {
                 for (int z = 0; z < size; z++)
                 {
+                    if (blockarr[i, z] != null)
+                        blockarr[i, z].setMultiped(false);
                     if (blockarr[i, z] != null && blockarr[i, z].Blockmoved())
                         blockarr[i, z].setMoveThread(new Thread(new ThreadStart(blockarr[i, z].moveAnimation)));
                     if (blockarr[i, z] != null && blockarr[i, z].sizeChanged())
@@ -315,7 +306,59 @@ namespace _2048
                 AddBlock();
                 movedBlocks = false;
             }
+            if (!canMove())
+            {
+                main.gameOver();
+            }
         }
 
+        private bool canMove()
+        {
+            bool fullcontainer = true;
+            for (int i = 0; i < size; i++)
+            {
+                for (int z = 0; z < size; z++)
+                {
+                    if (blockarr[i, z] == null)
+                    {
+                        fullcontainer = false;
+                        i = size;
+                        break;
+                    }
+                }
+            }
+
+            if (fullcontainer)
+            {
+                if (fullcontainer)
+                {
+                    for (int r = 0; r < size; r++)
+                    {
+                        for (int c = 0; c < size - 1; c++)
+                        {
+                            if (blockarr[r, c].getNumber() == blockarr[r, c + 1].getNumber())
+                            {
+                                r = size;
+                                return true;
+                            }
+                        }
+                    }
+                    for (int c = 0; c < size; c++)
+                    {
+                        for (int r = 0; r < size - 1; r++)
+                        {
+                            if (blockarr[r, c].getNumber() == blockarr[r+1, c].getNumber())
+                            {
+                                r = size;
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+            return true;
+
+        }
     }
 }

@@ -36,16 +36,18 @@ namespace _2048
         private bool moved;
         private bool destroyed;
         private bool changeSize;
+        private bool multipled;
+
 
 
         private int x;
         private int y;
 
-
+        private int r, g, b;
 
 
         private Main main;
-        
+
 
         public NumberBlock(int Row, int Column, long num, Main m)
         {
@@ -56,28 +58,68 @@ namespace _2048
             number = num;
             this.Rows = Row;
             this.Column = Column;
-            color = Color.FromArgb(238, 228, 218);
-            /*ColorTabel
-              238 228 218
-              238 225 201
-              243 178 122
-              247 95 59*/
+          
+
+            if (number == 2) {
+                r = 238;
+                g = 228;
+                b = 218;
+            }
+            else
+            {
+                r = 243;
+                g = 211;
+                b = 185;
+            }
+
+       
 
 
+            color = Color.FromArgb((byte)r, (byte)g, (byte)b);
             brush = new SolidBrush(color);
             textfont = new Font("Verdana", 40, FontStyle.Bold, GraphicsUnit.Point);
-
-
-      
-
             textbrush = Brushes.Black;
+
+
 
             x = 30 + 100 * Column + 10 * Column + 29;
             y = 200 + 100 * Rows + 10 * Rows + 29;
-
         }
 
-      
+        private void SetColor()
+        {
+            if (r > 220 && r < 255)
+            {
+                r += 5;
+            }
+            if(g > 50)
+            {
+                g -= 17;
+            }
+         
+
+
+            if (b > 50)
+            {
+                b -= 33;
+            }
+         
+
+
+            if (r >= 250)
+                r = 221;
+
+            if (g < 50)
+            {
+                g += 255 - g;
+            }
+            if (b < 50)
+            {
+                b += 255-b;
+            }
+            color = Color.FromArgb((byte)r, (byte)g, (byte)b);
+            brush.Color = color;
+        }
 
         public void Draw(Graphics g)
         {
@@ -106,7 +148,7 @@ namespace _2048
             path.CloseFigure();
             g.FillPath(b, path);
         }
-
+     
         private void sizeUp()
         {
             while (true)
@@ -172,6 +214,8 @@ namespace _2048
         }
         public void multiple()
         {
+            SetColor();
+            multipled = true;
             changeSize = true;
             number *= 2;
             if (number > 9999)
@@ -304,7 +348,14 @@ namespace _2048
         {
             return y;
         }
-
+        public bool getMultiped()
+        {
+            return multipled;
+        }
+        public void setMultiped(bool set)
+        {
+            multipled = set;
+        }
 
 
     }

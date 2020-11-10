@@ -36,8 +36,9 @@ namespace _2048
         Font infinityTextFont;
 
 
-        BlockContainer container;
-
+        private BlockContainer container;
+        private Score score;
+        
         Thread t;
         Thread over;
         int a;
@@ -45,7 +46,7 @@ namespace _2048
         public Main()
         {
             InitializeComponent();
-            infinityText = Color.FromArgb(255, 0, 0);
+            infinityText = Color.FromArgb(245, 213, 228);
             Color = Color.FromArgb(202, 193, 181);
             TitleColor = Color.FromArgb(117, 110, 102);
             ScoreColor = Color.FromArgb(157, 150, 142);
@@ -58,7 +59,7 @@ namespace _2048
             dist = 10;
             titleFont = new Font("Verdana", 50, FontStyle.Bold);
             scoreFont = new Font("Airal", 20);
-            infinityTextFont = new Font("Airal", 10, FontStyle.Bold);
+            infinityTextFont = new Font("휴먼편지체", 15, FontStyle.Bold);
             infinityMode = false;
             typeof(Panel).InvokeMember("DoubleBuffered", System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic, null, panel1, new object[] { true });
 
@@ -69,6 +70,7 @@ namespace _2048
             button1.BackColor = Color.FromArgb(0, Color.White);
             label1.BackColor = Color.Transparent;
 
+            score = new Score(this);
 
 
         }
@@ -95,6 +97,7 @@ namespace _2048
             if(infinityMode)
                 e.Graphics.DrawString("무한모드", infinityTextFont, infinityTextbrush, new Point(80, 120));
 
+            score.Draw(e.Graphics);
         }
 
         void DrawRoundRect(Graphics g, Brush b, int x, int y, int w,int h, int r)
@@ -114,6 +117,7 @@ namespace _2048
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             gameOver();
         }
 
@@ -142,6 +146,10 @@ namespace _2048
         }
         public void gameOver()
         {
+            keylock = true;
+            label1.Location = new Point(this.Size.Width / 2 - label1.Width / 2,-100+ this.Size.Height / 2 - label1.Height / 2);
+            button1.Location = new Point(this.Size.Width / 2 - button1.Width / 2, (this.Size.Height / 2 - button1.Height / 2));
+            panel1.Enabled = true;
             panel1.Visible = true;
             a = 0;
             over = new Thread(new ThreadStart(endTitle));
@@ -166,12 +174,19 @@ namespace _2048
         }
         public void Restart()
         {
-            containerSize = 4;
+            lockKey();
             container = new BlockContainer(containerSize, this);
-            panel1.Visible = false;
+
+            score.Reset();
+            a = 0;
             panel1.BackColor = Color.FromArgb(0, Color.White);
             button1.BackColor = Color.FromArgb(0, Color.White);
             label1.BackColor = Color.Transparent;
+            panel1.AutoSize = false;
+            panel1.Size = this.Size;
+            panel1.Visible = false;
+            panel1.Enabled = false;
+
         }
         private void Main_KeyDown(object sender, KeyEventArgs e)
         {
@@ -218,7 +233,7 @@ namespace _2048
                     break;
             }
         }
-
+       
        
 
         private void x4모드ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -268,6 +283,16 @@ namespace _2048
         private void 종료ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            keylock = false;
+            Restart();
+        }
+         public void addscore(long num)
+        {
+            score.AddScore(num);
         }
     }
 }
