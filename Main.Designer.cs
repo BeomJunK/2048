@@ -31,17 +31,24 @@
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.메뉴ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.데이터초기화ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.무한모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.크기모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.x4모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.x5모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.x6모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.x7ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.x8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.난이도ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.x4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.x5ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.x6ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.x7ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.x8ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.모드설정숫자ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.배수모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.모드ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.모드ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -73,6 +80,7 @@
             // 메뉴ToolStripMenuItem
             // 
             this.메뉴ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.데이터초기화ToolStripMenuItem,
             this.무한모드ToolStripMenuItem,
             this.크기모드ToolStripMenuItem,
             this.종료ToolStripMenuItem});
@@ -80,8 +88,16 @@
             this.메뉴ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.메뉴ToolStripMenuItem.Text = "메뉴";
             // 
+            // 데이터초기화ToolStripMenuItem
+            // 
+            this.데이터초기화ToolStripMenuItem.Name = "데이터초기화ToolStripMenuItem";
+            this.데이터초기화ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.데이터초기화ToolStripMenuItem.Text = "게임 초기화";
+            this.데이터초기화ToolStripMenuItem.Click += new System.EventHandler(this.데이터초기화ToolStripMenuItem_Click);
+            // 
             // 무한모드ToolStripMenuItem
             // 
+            this.무한모드ToolStripMenuItem.Enabled = false;
             this.무한모드ToolStripMenuItem.Name = "무한모드ToolStripMenuItem";
             this.무한모드ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.무한모드ToolStripMenuItem.Text = "무한모드";
@@ -90,49 +106,11 @@
             // 크기모드ToolStripMenuItem
             // 
             this.크기모드ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.x4모드ToolStripMenuItem,
-            this.x5모드ToolStripMenuItem,
-            this.x6모드ToolStripMenuItem,
-            this.x7ToolStripMenuItem,
-            this.x8ToolStripMenuItem});
+            this.난이도ToolStripMenuItem,
+            this.모드설정숫자ToolStripMenuItem});
             this.크기모드ToolStripMenuItem.Name = "크기모드ToolStripMenuItem";
             this.크기모드ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.크기모드ToolStripMenuItem.Text = "게임설정";
-            // 
-            // x4모드ToolStripMenuItem
-            // 
-            this.x4모드ToolStripMenuItem.Name = "x4모드ToolStripMenuItem";
-            this.x4모드ToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
-            this.x4모드ToolStripMenuItem.Text = "4x4";
-            this.x4모드ToolStripMenuItem.Click += new System.EventHandler(this.x4모드ToolStripMenuItem_Click);
-            // 
-            // x5모드ToolStripMenuItem
-            // 
-            this.x5모드ToolStripMenuItem.Name = "x5모드ToolStripMenuItem";
-            this.x5모드ToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
-            this.x5모드ToolStripMenuItem.Text = "5x5";
-            this.x5모드ToolStripMenuItem.Click += new System.EventHandler(this.x5모드ToolStripMenuItem_Click);
-            // 
-            // x6모드ToolStripMenuItem
-            // 
-            this.x6모드ToolStripMenuItem.Name = "x6모드ToolStripMenuItem";
-            this.x6모드ToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
-            this.x6모드ToolStripMenuItem.Text = "6x6";
-            this.x6모드ToolStripMenuItem.Click += new System.EventHandler(this.x6모드ToolStripMenuItem_Click);
-            // 
-            // x7ToolStripMenuItem
-            // 
-            this.x7ToolStripMenuItem.Name = "x7ToolStripMenuItem";
-            this.x7ToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
-            this.x7ToolStripMenuItem.Text = "7x7";
-            this.x7ToolStripMenuItem.Click += new System.EventHandler(this.x7ToolStripMenuItem_Click);
-            // 
-            // x8ToolStripMenuItem
-            // 
-            this.x8ToolStripMenuItem.Name = "x8ToolStripMenuItem";
-            this.x8ToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
-            this.x8ToolStripMenuItem.Text = "8x8";
-            this.x8ToolStripMenuItem.Click += new System.EventHandler(this.x8ToolStripMenuItem_Click);
             // 
             // 종료ToolStripMenuItem
             // 
@@ -178,6 +156,92 @@
             this.label1.Text = "Game Over!";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // 난이도ToolStripMenuItem
+            // 
+            this.난이도ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.x4ToolStripMenuItem,
+            this.x5ToolStripMenuItem,
+            this.x6ToolStripMenuItem,
+            this.x7ToolStripMenuItem1,
+            this.x8ToolStripMenuItem1});
+            this.난이도ToolStripMenuItem.Name = "난이도ToolStripMenuItem";
+            this.난이도ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.난이도ToolStripMenuItem.Text = "모드 설정(크기)";
+            // 
+            // x4ToolStripMenuItem
+            // 
+            this.x4ToolStripMenuItem.Name = "x4ToolStripMenuItem";
+            this.x4ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.x4ToolStripMenuItem.Text = "4x4";
+            this.x4ToolStripMenuItem.Click += new System.EventHandler(this.x4ToolStripMenuItem_Click);
+            // 
+            // x5ToolStripMenuItem
+            // 
+            this.x5ToolStripMenuItem.Name = "x5ToolStripMenuItem";
+            this.x5ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.x5ToolStripMenuItem.Text = "5x5";
+            this.x5ToolStripMenuItem.Click += new System.EventHandler(this.x5ToolStripMenuItem_Click);
+            // 
+            // x6ToolStripMenuItem
+            // 
+            this.x6ToolStripMenuItem.Name = "x6ToolStripMenuItem";
+            this.x6ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.x6ToolStripMenuItem.Text = "6x6";
+            this.x6ToolStripMenuItem.Click += new System.EventHandler(this.x6ToolStripMenuItem_Click);
+            // 
+            // x7ToolStripMenuItem1
+            // 
+            this.x7ToolStripMenuItem1.Name = "x7ToolStripMenuItem1";
+            this.x7ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.x7ToolStripMenuItem1.Text = "7x7";
+            this.x7ToolStripMenuItem1.Click += new System.EventHandler(this.x7ToolStripMenuItem1_Click);
+            // 
+            // x8ToolStripMenuItem1
+            // 
+            this.x8ToolStripMenuItem1.Name = "x8ToolStripMenuItem1";
+            this.x8ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.x8ToolStripMenuItem1.Text = "8x8";
+            this.x8ToolStripMenuItem1.Click += new System.EventHandler(this.x8ToolStripMenuItem1_Click);
+            // 
+            // 모드설정숫자ToolStripMenuItem
+            // 
+            this.모드설정숫자ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.배수모드ToolStripMenuItem,
+            this.모드ToolStripMenuItem,
+            this.모드ToolStripMenuItem1,
+            this.toolStripMenuItem2});
+            this.모드설정숫자ToolStripMenuItem.Name = "모드설정숫자ToolStripMenuItem";
+            this.모드설정숫자ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.모드설정숫자ToolStripMenuItem.Text = "모드 설정(숫자)";
+            // 
+            // 배수모드ToolStripMenuItem
+            // 
+            this.배수모드ToolStripMenuItem.Name = "배수모드ToolStripMenuItem";
+            this.배수모드ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.배수모드ToolStripMenuItem.Text = "2 - 4 모드";
+            this.배수모드ToolStripMenuItem.Click += new System.EventHandler(this.배수모드ToolStripMenuItem_Click);
+            // 
+            // 모드ToolStripMenuItem
+            // 
+            this.모드ToolStripMenuItem.Name = "모드ToolStripMenuItem";
+            this.모드ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.모드ToolStripMenuItem.Text = "3 - 6 모드";
+            this.모드ToolStripMenuItem.Click += new System.EventHandler(this.모드ToolStripMenuItem_Click);
+            // 
+            // 모드ToolStripMenuItem1
+            // 
+            this.모드ToolStripMenuItem1.Name = "모드ToolStripMenuItem1";
+            this.모드ToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.모드ToolStripMenuItem1.Text = "5 - 10 모드";
+            this.모드ToolStripMenuItem1.Click += new System.EventHandler(this.모드ToolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+            this.toolStripMenuItem2.Text = "7 - 14 모드";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -213,14 +277,21 @@
         private System.Windows.Forms.ToolStripMenuItem 무한모드ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 종료ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 크기모드ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem x4모드ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem x5모드ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem x6모드ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem x7ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem x8ToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripMenuItem 데이터초기화ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 난이도ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem x4ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem x5ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem x6ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem x7ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem x8ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem 모드설정숫자ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 배수모드ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 모드ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 모드ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
     }
 }
 

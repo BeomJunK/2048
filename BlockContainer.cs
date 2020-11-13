@@ -24,7 +24,7 @@ namespace _2048
         private int row;
         private Main main;
 
-
+        private int MoveSpeed;
 
         public BlockContainer(int size, Main m)
         {
@@ -37,8 +37,8 @@ namespace _2048
 
             int a = 1;
 
-
-
+            MoveSpeed = 10;
+           
             AddBlock();
             AddBlock();
 
@@ -64,11 +64,6 @@ namespace _2048
         }
         public void AddBlock()
         {
-           
-            
-
-            
-
             while (true)
             {
                 column = random.Next(0, size);
@@ -77,11 +72,46 @@ namespace _2048
                 if (blockarr[row, column] == null)
                 {
                     if (random.Next(0, 3) == 0)
-                        blockarr[row, column] = new NumberBlock(row, column, 4, main);
+                    {
+                        switch (main.multipleMode)
+                        {
+                            case 0:
+                                blockarr[row, column] = new NumberBlock(row, column, 4, MoveSpeed, main);
+                                break;
+                            case 1:
+                                blockarr[row, column] = new NumberBlock(row, column, 6, MoveSpeed, main);
+                                break;
+                            case 2:
+                                blockarr[row, column] = new NumberBlock(row, column, 10, MoveSpeed, main);
+                                break;
+                            case 3:
+                                blockarr[row, column] = new NumberBlock(row, column, 14, MoveSpeed, main);
+                                break;
+                        }
+                    }
                     else
-                        blockarr[row, column] = new NumberBlock(row, column, 2, main);
+                    {
+                        blockarr[row, column] = new NumberBlock(row, column, 2, MoveSpeed, main);
+                        switch (main.multipleMode)
+                        {
+                            case 0:
+                                blockarr[row, column] = new NumberBlock(row, column, 2, MoveSpeed, main);
+                                break;
+                            case 1:
+                                blockarr[row, column] = new NumberBlock(row, column, 3, MoveSpeed, main);
+                                break;
+                            case 2:
+                                blockarr[row, column] = new NumberBlock(row, column, 5, MoveSpeed, main);
+                                break;
+                            case 3:
+                                blockarr[row, column] = new NumberBlock(row, column, 7, MoveSpeed, main);
+                                break;
+                        }
+                    }
                     break;
                 }
+
+
             }
 
         }
@@ -134,7 +164,31 @@ namespace _2048
 
             if (movedBlocks)
             {
-                AddBlock();
+                switch (size)
+                {
+                    case 4:
+                        AddBlock();
+                        break;
+                    case 5:
+                        AddBlock();
+                        break;
+                    case 6:
+                        AddBlock();
+                        AddBlock();
+                        break;
+                    case 7:
+                        AddBlock();
+                        AddBlock();
+                        AddBlock();
+                        break;
+                    case 8:
+                        AddBlock();
+                        AddBlock();
+                        AddBlock();
+                        AddBlock();
+                        break;
+                }
+            
                 movedBlocks = false;
             }
             if (!canMove())
@@ -193,7 +247,30 @@ namespace _2048
             }
             if (movedBlocks)
             {
-                AddBlock();
+                switch (size)
+                {
+                    case 4:
+                        AddBlock();
+                        break;
+                    case 5:
+                        AddBlock();
+                        break;
+                    case 6:
+                        AddBlock();
+                        AddBlock();
+                        break;
+                    case 7:
+                        AddBlock();
+                        AddBlock();
+                        AddBlock();
+                        break;
+                    case 8:
+                        AddBlock();
+                        AddBlock();
+                        AddBlock();
+                        AddBlock();
+                        break;
+                }
                 movedBlocks = false;
             }
             if (!canMove())
@@ -248,7 +325,30 @@ namespace _2048
             }
             if (movedBlocks)
             {
-                AddBlock();
+                switch (size)
+                {
+                    case 4:
+                        AddBlock();
+                        break;
+                    case 5:
+                        AddBlock();
+                        break;
+                    case 6:
+                        AddBlock();
+                        AddBlock();
+                        break;
+                    case 7:
+                        AddBlock();
+                        AddBlock();
+                        AddBlock();
+                        break;
+                    case 8:
+                        AddBlock();
+                        AddBlock();
+                        AddBlock();
+                        AddBlock();
+                        break;
+                }
                 movedBlocks = false;
             }
             if (!canMove())
@@ -303,7 +403,30 @@ namespace _2048
             }
             if (movedBlocks)
             {
-                AddBlock();
+                switch (size)
+                {
+                    case 4:
+                        AddBlock();
+                        break;
+                    case 5:
+                        AddBlock();
+                        break;
+                    case 6:
+                        AddBlock();
+                        AddBlock();
+                        break;
+                    case 7:
+                        AddBlock();
+                        AddBlock();
+                        AddBlock();
+                        break;
+                    case 8:
+                        AddBlock();
+                        AddBlock();
+                        AddBlock();
+                        AddBlock();
+                        break;
+                }
                 movedBlocks = false;
             }
             if (!canMove())

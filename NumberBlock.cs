@@ -37,6 +37,7 @@ namespace _2048
         private bool destroyed;
         private bool changeSize;
         private bool multipled;
+        private bool createAnim;
 
 
 
@@ -48,19 +49,24 @@ namespace _2048
 
         private Main main;
 
+        private int blockMoveSpeed;
 
-        public NumberBlock(int Row, int Column, long num, Main m)
+        public NumberBlock(int Row, int Column, long num,int moveSpeed,Main m)
         {
+            blockMoveSpeed = moveSpeed;
             main = m;
+            color = Color.FromArgb((byte)r, (byte)g, (byte)b);
+            brush = new SolidBrush(color);
+            textfont = new Font("Verdana", 40, FontStyle.Bold, GraphicsUnit.Point);
+            textbrush = Brushes.Black;
             t = new Thread(new ThreadStart(sizeUp));
-            StartAnimation();
             blocksize = 0;
             number = num;
             this.Rows = Row;
             this.Column = Column;
           
 
-            if (number == 2) {
+            if (number == 2 || number == 3 || number == 5|| number == 7) {
                 r = 238;
                 g = 228;
                 b = 218;
@@ -84,6 +90,9 @@ namespace _2048
 
             x = 30 + 100 * Column + 10 * Column + 29;
             y = 200 + 100 * Rows + 10 * Rows + 29;
+
+            t.Start();
+
         }
 
         private void SetColor()
@@ -132,7 +141,7 @@ namespace _2048
             stringFormat.Alignment = StringAlignment.Center;
             stringFormat.LineAlignment = StringAlignment.Center;
             
-            if(!changeSize)
+            if(!changeSize && !createAnim)
                 g.DrawString(number.ToString(), textfont, textbrush, rect1, stringFormat);
         }
         void DrawRoundRect(Graphics g, Brush b, int x, int y, int w, int h, int r)
@@ -151,6 +160,7 @@ namespace _2048
      
         private void sizeUp()
         {
+            createAnim = true;
             while (true)
             {
                 x -= 2;
@@ -163,6 +173,7 @@ namespace _2048
                 }
                 Thread.Sleep(10);
             }
+            createAnim = false;
         }
 
         private void sizeUpandDown()
@@ -202,10 +213,7 @@ namespace _2048
             changeSize = false;
         }
 
-        public void StartAnimation()
-        {
-            t.Start();
-        }
+     
    
 
         public long getNumber()
@@ -274,7 +282,7 @@ namespace _2048
                 while (true)
                 {
                     if (destinationX < x)
-                        x -= 10;
+                        x -= blockMoveSpeed;
                     else if (destinationX >= x)
                         break;
                     main.Invalidate();
@@ -286,7 +294,7 @@ namespace _2048
                 while (true)
                 {
                     if (destinationX > x)
-                        x += 10;
+                        x += blockMoveSpeed;
                     else if (destinationX <= x)
                         break;
                     main.Invalidate();
@@ -299,7 +307,7 @@ namespace _2048
                 while (true)
                 {
                     if (destinationY < y)
-                        y -= 10;
+                        y -= blockMoveSpeed;
                     else if (destinationY >= y)
                         break;
                     main.Invalidate();
@@ -311,7 +319,7 @@ namespace _2048
                 while (true)
                 {
                     if (destinationY > y)
-                        y += 10;
+                        y += blockMoveSpeed;
                     else if (destinationY <=y)
                         break;
                     main.Invalidate();

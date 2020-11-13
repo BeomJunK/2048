@@ -14,7 +14,11 @@ namespace _2048
     public partial class Main : Form
     {
         bool keylock;
-        bool infinityMode;
+        private bool infinityMode { set; get; }
+        public int multipleMode { set; get; }
+
+
+
 
         Color infinityText;
         Color Color;
@@ -46,6 +50,40 @@ namespace _2048
         public Main()
         {
             InitializeComponent();
+            containerSize = Properties.Settings.Default.gameSizeMode;
+            multipleMode = Properties.Settings.Default.gameMultipleMode;
+            switch (containerSize)
+            {
+                case 4:
+                    this.Size = new Size(466, 659);
+                    break;
+                case 5:
+                    this.Size = new Size(686, 769);
+                    break;
+                case 6:
+                    this.Size = new Size(686, 879);
+                    break;
+                case 7:
+                    this.Size = new Size(796, 989);
+                    break;
+                case 8:
+                    this.Size = new Size(906, 1099);
+                    break;
+            }
+            if (Properties.Settings.Default.clearGame == true)
+            {
+                infinityMode = true;
+                ((ToolStripMenuItem)무한모드ToolStripMenuItem).Enabled = true;
+                ((ToolStripMenuItem)무한모드ToolStripMenuItem).Checked = true;
+            }
+            else
+            {
+                infinityMode = false;
+                ((ToolStripMenuItem)무한모드ToolStripMenuItem).Enabled = false;
+                ((ToolStripMenuItem)무한모드ToolStripMenuItem).Checked = false;
+            }
+
+
             infinityText = Color.FromArgb(245, 213, 228);
             Color = Color.FromArgb(202, 193, 181);
             TitleColor = Color.FromArgb(117, 110, 102);
@@ -60,10 +98,10 @@ namespace _2048
             titleFont = new Font("Verdana", 50, FontStyle.Bold);
             scoreFont = new Font("Airal", 20);
             infinityTextFont = new Font("휴먼편지체", 15, FontStyle.Bold);
-            infinityMode = false;
             typeof(Panel).InvokeMember("DoubleBuffered", System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic, null, panel1, new object[] { true });
 
-            containerSize = 4;
+
+
             container = new BlockContainer(containerSize, this);
             panel1.Visible = false;
             panel1.BackColor = Color.FromArgb(0, Color.White);
@@ -73,6 +111,7 @@ namespace _2048
             score = new Score(this);
 
 
+           
         }
 
         private void Main_Paint(object sender, PaintEventArgs e)
@@ -139,6 +178,10 @@ namespace _2048
         {
             return dist;
         }
+        public bool getInfinitymode()
+        {
+            return infinityMode;
+        }
         private void lockKey()
         {
             Thread.Sleep(300);
@@ -147,7 +190,29 @@ namespace _2048
         public void gameOver()
         {
             keylock = true;
+            label1.Text = "Game Over!";
             label1.Location = new Point(this.Size.Width / 2 - label1.Width / 2,-100+ this.Size.Height / 2 - label1.Height / 2);
+            button1.Location = new Point(this.Size.Width / 2 - button1.Width / 2, (this.Size.Height / 2 - button1.Height / 2));
+            panel1.Enabled = true;
+            panel1.Visible = true;
+            a = 0;
+            over = new Thread(new ThreadStart(endTitle));
+            over.Start();
+        }
+        public void gameClear()
+        {
+            if (Properties.Settings.Default.clearGame == false)
+            {
+            ((ToolStripMenuItem)무한모드ToolStripMenuItem).Enabled = true;
+                Properties.Settings.Default.clearGame = true;
+                Properties.Settings.Default.Save();
+            }
+
+          
+
+            keylock = true;
+            label1.Text = "Game Clear!";
+            label1.Location = new Point(this.Size.Width / 2 - label1.Width / 2, -100 + this.Size.Height / 2 - label1.Height / 2);
             button1.Location = new Point(this.Size.Width / 2 - button1.Width / 2, (this.Size.Height / 2 - button1.Height / 2));
             panel1.Enabled = true;
             panel1.Visible = true;
@@ -233,52 +298,6 @@ namespace _2048
                     break;
             }
         }
-       
-       
-
-        private void x4모드ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Size = new Size(466, 659);
-            containerSize = 4;
-            container = new BlockContainer(containerSize, this);
-            this.CenterToScreen();
-
-        }
-
-        private void x5모드ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Size = new Size(576, 769);
-            containerSize = 5;
-            container = new BlockContainer(containerSize, this);
-            this.CenterToScreen();
-        }
-        private void x6모드ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Size = new Size(686, 879);
-            containerSize = 6;
-            container = new BlockContainer(containerSize, this);
-            this.CenterToScreen();
-
-
-        }
-        private void x7ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Size = new Size(796, 989);
-            containerSize = 7;
-            container = new BlockContainer(containerSize, this);
-            this.CenterToScreen();
-
-        }
-
-        private void x8ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Size = new Size(906, 1099);
-            containerSize = 8;
-            container = new BlockContainer(containerSize, this);
-            this.CenterToScreen();
-
-
-        }
 
         private void 종료ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -289,10 +308,125 @@ namespace _2048
         {
             keylock = false;
             Restart();
+            if (infinityMode == false)
+            {
+                ((ToolStripMenuItem)무한모드ToolStripMenuItem).Enabled = true;
+                ((ToolStripMenuItem)무한모드ToolStripMenuItem).Checked = true;
+                infinityMode = true;
+            }
+                
         }
          public void addscore(long num)
         {
             score.AddScore(num);
+        }
+      
+
+        private void 데이터초기화ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Size = new Size(466, 659);
+            containerSize = 4;
+            container = new BlockContainer(containerSize, this);
+            this.CenterToScreen();
+
+            Properties.Settings.Default.gameSizeMode = 4;
+
+            multipleMode = 0;
+            Restart();
+            Properties.Settings.Default.gameMultipleMode = 0;
+            Properties.Settings.Default.clearGame = false;
+            Properties.Settings.Default.bestScore = 0;
+            Properties.Settings.Default.Save();
+            infinityMode = false;
+            ((ToolStripMenuItem)무한모드ToolStripMenuItem).Checked = false;
+            ((ToolStripMenuItem)무한모드ToolStripMenuItem).Enabled = false;
+            Restart();
+        }
+
+        private void x4ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Size = new Size(466, 659);
+            containerSize = 4;
+            container = new BlockContainer(containerSize, this);
+            this.CenterToScreen();
+
+            Properties.Settings.Default.gameSizeMode = 4;
+            Properties.Settings.Default.Save();
+        }
+
+        private void x5ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Size = new Size(576, 769);
+            containerSize = 5;
+            container = new BlockContainer(containerSize, this);
+            this.CenterToScreen();
+
+            Properties.Settings.Default.gameSizeMode = 5;
+            Properties.Settings.Default.Save();
+        }
+
+        private void x6ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Size = new Size(686, 879);
+            containerSize = 6;
+            container = new BlockContainer(containerSize, this);
+            this.CenterToScreen();
+            Properties.Settings.Default.gameSizeMode = 6;
+            Properties.Settings.Default.Save();
+        }
+
+        private void x7ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            this.Size = new Size(796, 989);
+            containerSize = 7;
+            container = new BlockContainer(containerSize, this);
+            this.CenterToScreen();
+            Properties.Settings.Default.gameSizeMode = 7;
+            Properties.Settings.Default.Save();
+        }
+
+        private void x8ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            this.Size = new Size(906, 1099);
+            containerSize = 8;
+            container = new BlockContainer(containerSize, this);
+            this.CenterToScreen();
+            Properties.Settings.Default.gameSizeMode = 8;
+            Properties.Settings.Default.Save();
+        }
+
+        private void 배수모드ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            multipleMode = 0;
+            Restart();
+            Properties.Settings.Default.gameMultipleMode = 0;
+            Properties.Settings.Default.Save();
+        }
+
+        private void 모드ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            multipleMode = 1;
+            Restart();
+
+            Properties.Settings.Default.gameMultipleMode = 1;
+            Properties.Settings.Default.Save();
+        }
+
+        private void 모드ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            multipleMode = 2;
+            Restart();
+
+            Properties.Settings.Default.gameMultipleMode = 2;
+            Properties.Settings.Default.Save();
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            multipleMode = 3;
+            Restart();
+            Properties.Settings.Default.gameMultipleMode = 3;
+            Properties.Settings.Default.Save();
         }
     }
 }
