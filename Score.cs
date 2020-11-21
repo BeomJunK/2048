@@ -12,7 +12,7 @@ namespace _2048
     {
         Main main;
 
-        long score;
+        public long score;
         long addnum;
       
         Thread s;
@@ -146,6 +146,8 @@ namespace _2048
         public void Reset()
         {
             score = 0;
+            addnum = 0;
+            main.Invalidate();
         }
 
 
